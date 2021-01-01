@@ -1,0 +1,16 @@
+@mixin button-style{
+    text-decoration: none;
+  background-color: none;
+  border: none;
+  padding: 1rem 2rem;
+  color: $color-tertiary-dark;
+  border-radius: 1.5rem 1.5rem 1.5rem 0;
+  box-shadow: 0 0.2rem 0.9rem 0.2rem rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover{
+      color: $color-tertiary;
+      background-color: $color-secondary;
+  }
+}
