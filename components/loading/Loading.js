@@ -1,10 +1,10 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
+import "./Loading.scss";
 
 const Loading = () => {
   return (
     <>
-      <CircularProgress ></CircularProgress>
-      <div>Loading!</div>
+      <CircularProgress></CircularProgress>
     </>
   );
 };

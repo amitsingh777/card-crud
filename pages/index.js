@@ -2,27 +2,68 @@ import Link from "next/link";
 import Grid from "@material-ui/core/Grid";
 import Card from "../components/card/Card";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/_variables.scss";
-// import Container from "@material-ui/core/Container";
-import data from "../components/userData";
+import Form from "../components/form/Form";
 import Loading from "../components/loading/Loading";
 
 export default function Home() {
   const [list, setList] = useState([]);
-  const userData = JSON.parse(data);
+  const [formAppear, setFormAppear] = useState(false);
+  const fetchCall=async()=>{
+    const response = await axios.get("http://localhost:8000/v1/users");
+    const dataList = response.data.data.users;
+    setList(dataList);
+  }
+  
   useEffect(() => {
-    setTimeout(() => {
-      setList(userData);
-    }, 0);
-  }, [userData.id]);
+    fetchCall();
+  }, []);
 
   if (list.length === 0) {
-    return <Loading />
+    return (
+      <div className="loader">
+        <Loading />
+      </div>
+    );
   }
+
   return (
     <div className="container-grid">
       <div className="btn-container">
-        <button className="container-grid__btn">Add</button>
+        {formAppear === false ? (
+          <button
+            className="container-grid__btn"
+            onClick={() => {
+              setFormAppear(true);
+            }}
+          >
+            Add
+          </button>
+        ) : (
+          <div className="form-modal">
+            <div className="form-container">
+              <Form
+                form={true}
+                btnHide={true}
+                users={{
+                  _id: "",
+                  name: "",
+                  phoneNumber: "",
+                  email: "",
+                  address: "",
+                }}
+                setState={setList}
+                state={list}
+                fetchCall={fetchCall}
+                close={() => {
+                  setFormAppear(false);
+                }}
+              />
+            </div>
+          </div>
+          // <div onClick={()=>setFormAppear(false)}>test</div>
+        )}
       </div>
       <Grid container justify="center" spacing={1}>
         {list.map((c, i) => (
